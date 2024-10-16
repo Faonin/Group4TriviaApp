@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:template/question_class.dart';
 import 'package:template/question_featcher.dart';
+import 'package:template/question_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Trivia App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.light(primary: Colors.white),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'The One And Only Amazing Trivia App'),
@@ -31,17 +33,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _testTheApi() {
-    setState(() {
-      Questionfeatcher.getQuestions(5, 9);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title),
       ),
       body: Center(
@@ -51,9 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _testTheApi,
+        onPressed: () async {
+          List<QuestionClass> questions = await Questionfeatcher.getQuestions(1);
+          QuestionClass question = questions.first;
+          if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(question)));
+        },
         tooltip: 'Testing',
-        child: const Icon(Icons.drafts),
+        child: const Icon(Icons.question_mark, color: Colors.black),
       ),
     );
   }
