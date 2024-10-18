@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/pages/add_player_page.dart';
 import 'package:template/question_fetcher.dart';
 import 'package:template/question_class.dart';
 import 'package:template/pages/question_page.dart';
@@ -10,16 +11,22 @@ class PlayerSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {}, // Placeholder for future menu functionality
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black),
+              onPressed: () {}, // Placeholder for future menu functionality
+            ),
           ),
         ],
       ),
@@ -67,7 +74,12 @@ class PlayerSelectionPage extends StatelessWidget {
             // Local party button
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement navigation for local party mode
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddPlayerPage(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
