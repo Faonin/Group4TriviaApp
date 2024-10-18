@@ -84,9 +84,9 @@ class QuestionButtton extends StatelessWidget {
     return (Padding(
       padding: EdgeInsets.all(15),
       child: GestureDetector(
-        onTap: () async {
+        onTap: () {
           if (context.mounted) {
-            Navigator.pop(context);
+            Navigator.pop(context, "Text");
           }
         },
         child: Container(
@@ -99,9 +99,10 @@ class QuestionButtton extends StatelessWidget {
             padding: EdgeInsets.all(15),
             child: FittedBox(
               fit: BoxFit.fitWidth,
-              child: Text(
+              child: AutoSizeText(
                 text,
-                style: TextStyle(color: Colors.white),
+                maxLines: 3,
+                style: TextStyle(color: Colors.white, fontSize: 32),
               ),
             ),
           ),

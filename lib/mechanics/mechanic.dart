@@ -18,15 +18,12 @@ class GameMechanics {
 
   start(BuildContext context) async {
     questions = await QuestionFetcher.getQuestions(amoutOfQuestions);
-    if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(questions.last)));
-    if (context.mounted) next(context);
+    if (context.mounted) {
+      for (var question in questions) {
+        await Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(question)));
+      }
+    }
   }
 
-  next(BuildContext context) {
-    print(questions);
-
-    if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(questions.last)));
-    questions.removeLast();
-    next(context);
-  }
+  next(BuildContext context) async {}
 }
