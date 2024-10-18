@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:template/mechanics/mechanic.dart';
 import 'package:template/pages/add_player_page.dart';
-import 'package:template/question_fetcher.dart';
+import 'package:template/question_fetcher.dart'
 import 'package:template/question_class.dart';
 import 'package:template/pages/question_page.dart';
 
@@ -46,15 +47,11 @@ class PlayerSelectionPage extends StatelessWidget {
             // Singleplayer button
             ElevatedButton(
               onPressed: () async {
-                List<QuestionClass> questions = await QuestionFetcher.getQuestions(1);
-                QuestionClass question = questions.first;
+
+                var singleplayerGame = GameMechanics(false, 10);
 
                 if (context.mounted) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => QuestionPage(question),
-                      ));
+                  singleplayerGame.start(context);
                 }
               },
               style: ElevatedButton.styleFrom(

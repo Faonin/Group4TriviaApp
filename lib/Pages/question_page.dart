@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:template/question_fetcher.dart';
 import 'package:template/question_class.dart';
 
 class QuestionPage extends StatelessWidget {
@@ -85,11 +84,9 @@ class QuestionButtton extends StatelessWidget {
     return (Padding(
       padding: EdgeInsets.all(15),
       child: GestureDetector(
-        onTap: () async {
-          List<QuestionClass> questions = await QuestionFetcher.getQuestions(1);
-          QuestionClass question = questions.first;
+        onTap: () {
           if (context.mounted) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuestionPage(question)));
+            Navigator.pop(context);
           }
         },
         child: Container(
@@ -102,9 +99,10 @@ class QuestionButtton extends StatelessWidget {
             padding: EdgeInsets.all(15),
             child: FittedBox(
               fit: BoxFit.fitWidth,
-              child: Text(
+              child: AutoSizeText(
                 text,
-                style: TextStyle(color: Colors.white),
+                maxLines: 3,
+                style: TextStyle(color: Colors.white, fontSize: 32),
               ),
             ),
           ),
