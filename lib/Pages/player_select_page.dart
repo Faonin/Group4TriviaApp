@@ -46,21 +46,20 @@ class PlayerSelectionPage extends StatelessWidget {
             // Singleplayer button
             ElevatedButton(
               onPressed: () async {
-                List<QuestionClass> questions =
-                    await QuestionFetcher.getQuestions(1);
+                List<QuestionClass> questions = await QuestionFetcher.getQuestions(1);
                 QuestionClass question = questions.first;
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QuestionPage(question),
-                  ),
-                );
+                if (context.mounted) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuestionPage(question),
+                      ));
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -83,8 +82,7 @@ class PlayerSelectionPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
