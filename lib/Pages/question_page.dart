@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:template/question_fetcher.dart';
 import 'package:template/question_class.dart';
 
 class QuestionPage extends StatelessWidget {
@@ -11,9 +10,7 @@ class QuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => Navigator.of(context).pop()),
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed: () => Navigator.of(context).pop()),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -27,8 +24,7 @@ class QuestionPage extends StatelessWidget {
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Container(
                   height: 200,
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey))),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 50),
                     child: AutoSizeText(
@@ -46,14 +42,8 @@ class QuestionPage extends StatelessWidget {
             )
           ],
         ),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: questionSelector1()),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: questionSelector2()),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.end, children: questionSelector1()),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.end, children: questionSelector2()),
       ]),
     );
   }
@@ -95,13 +85,9 @@ class QuestionButtton extends StatelessWidget {
       padding: EdgeInsets.all(15),
       child: GestureDetector(
         onTap: () async {
-          List<QuestionClass> questions = await QuestionFetcher.getQuestions(1);
-          QuestionClass question = questions.first;
-          if (context.mounted)
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => QuestionPage(question)));
+          if (context.mounted) {
+            Navigator.pop(context);
+          }
         },
         child: Container(
           height: 160,

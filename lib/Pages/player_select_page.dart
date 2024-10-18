@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:template/question_fetcher.dart';
+import 'package:template/mechanics/mechanic.dart';
 import 'package:template/question_class.dart';
 import 'package:template/pages/question_page.dart';
 
@@ -39,21 +39,15 @@ class PlayerSelectionPage extends StatelessWidget {
             // Singleplayer button
             ElevatedButton(
               onPressed: () async {
-                List<QuestionClass> questions =
-                    await QuestionFetcher.getQuestions(1);
-                QuestionClass question = questions.first;
+                var singleplayerGame = GameMechanics(false, 5);
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QuestionPage(question),
-                  ),
-                );
+                if (context.mounted) {
+                  singleplayerGame.start(context);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -71,8 +65,7 @@ class PlayerSelectionPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
