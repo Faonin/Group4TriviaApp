@@ -18,9 +18,12 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () {}, // Placeholder for future menu functionality
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black),
+              onPressed: () {}, // Placeholder for future menu functionality
+            ),
           ),
         ],
       ),
