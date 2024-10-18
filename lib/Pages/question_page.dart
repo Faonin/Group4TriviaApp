@@ -86,7 +86,7 @@ class QuestionButtton extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           if (context.mounted) {
-            Navigator.pop(context, "Text");
+            Navigator.pop(context);
           }
         },
         child: Container(
