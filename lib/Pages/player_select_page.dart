@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:template/mechanics/mechanic.dart';
 import 'package:template/pages/add_player_page.dart';
-import 'package:template/question_fetcher.dart'
-import 'package:template/question_class.dart';
-import 'package:template/pages/question_page.dart';
 
 class PlayerSelectionPage extends StatelessWidget {
   const PlayerSelectionPage({super.key});
@@ -47,12 +44,13 @@ class PlayerSelectionPage extends StatelessWidget {
             // Singleplayer button
             ElevatedButton(
               onPressed: () async {
-
                 var singleplayerGame = GameMechanics(false, 10);
-
+                singleplayerGame.selectCategory(context);
+                /*
                 if (context.mounted) {
                   singleplayerGame.start(context);
                 }
+                */
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,

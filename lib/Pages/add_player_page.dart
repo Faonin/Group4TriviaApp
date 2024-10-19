@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:ndialog/ndialog.dart';
+import 'package:template/mechanics/player.dart';
+import 'package:template/mechanics/mechanic.dart';
 
 class AddPlayerPage extends StatefulWidget {
   const AddPlayerPage({super.key});
@@ -10,7 +12,7 @@ class AddPlayerPage extends StatefulWidget {
 }
 
 class _AddPlayerPageState extends State<AddPlayerPage> {
-  List<Map<String, dynamic>> players = []; // To store added players' info
+  List<Player> players = []; // To store added players' info
   Color _selectedColor = Colors.blue; // Default color
   final TextEditingController _playerNameController = TextEditingController();
 
@@ -51,8 +53,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
               onPressed: _showAddPlayerDialog,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -71,9 +72,9 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                   final player = players[index];
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: player['color'],
+                      backgroundColor: player.color,
                     ),
-                    title: Text(player['name']),
+                    title: Text(player.name),
                     trailing: IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () {
@@ -94,6 +95,9 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: () {
+            var multiplayer = GameMechanics(true, 5);
+            multiplayer.addPlayers(players);
+            multiplayer.start(context);
             // Implement navigation to the next step, such as selecting a category
           },
           style: ElevatedButton.styleFrom(
@@ -178,10 +182,9 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
             onPressed: () {
               if (playerName.isNotEmpty) {
                 setState(() {
-                  players.add({
-                    "name": playerName,
-                    "color": _selectedColor,
-                  });
+                  players.add(Player(playerName, _selectedColor));
+                  _playerNameController.text = "";
+                  _selectedColor = Colors.blue;
                 });
                 Navigator.of(context).pop(); // Close dialog after saving
               }
