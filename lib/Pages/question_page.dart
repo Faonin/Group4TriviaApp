@@ -67,11 +67,11 @@ class _QuestionPageState extends State<QuestionPage> {
         CircularCountDownTimer(
           width: 75,
           height: 75,
-          duration: 10,
+          duration: 15,
           fillColor: Colors.black,
           ringColor: Colors.grey,
           isReverse: true,
-          isReverseAnimation: true,
+          isReverseAnimation: false,
           onComplete: () {
             Navigator.pop(context);
           },
