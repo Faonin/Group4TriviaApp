@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Trivia App',
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.blue), // App color scheme
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue), // App color scheme
       ),
       home: const MyHomePage(title: 'The One And Only Amazing Trivia App'),
       debugShowCheckedModeBanner: false,

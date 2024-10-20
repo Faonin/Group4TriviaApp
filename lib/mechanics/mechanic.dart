@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:template/Pages/change_user_screen.dart';
+import 'package:template/Pages/loading_page.dart';
+import 'package:template/Pages/score_page.dart';
 import 'package:template/Pages/select_category.dart';
 import 'package:template/pages/question_page.dart';
 import 'package:template/mechanics/question_class.dart';
@@ -22,19 +25,34 @@ class GameMechanics {
     players = users;
   }
 
-  selectCategory(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectCategory()));
+  Future<String> selectCategory(BuildContext context) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => SelectCategory())).then((number) {
+      if (number != 0) {
+        try {
+          selectedCategory = number + 8;
+        } catch (e) {
+          selectedCategory = 0;
+        }
+      }
+      if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => LoadingPage()));
+    });
+    return "";
   }
 
   start(BuildContext context) async {
+    await selectCategory(context);
     questions = await QuestionFetcher.getQuestions(amoutOfQuestions, selectedCategory);
-    if (context.mounted) {
-      for (var question in questions) {
-        for (var player in players) {
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(question, player)));
+    if (context.mounted) Navigator.pop(context);
+
+    for (var i = 0; i < questions.length; i++) {
+      for (var player in players) {
+        // ignore: use_build_context_synchronously
+        if (multiplayer & context.mounted) await Navigator.push(context, MaterialPageRoute(builder: (context) => ChangeUserScreen(player)));
+        if (context.mounted) {
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionPage(questions[i], player, questions.length, i + 1)));
         }
       }
     }
-    print(players[0].currentScore());
+    if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => ScorePage(players)));
   }
 }

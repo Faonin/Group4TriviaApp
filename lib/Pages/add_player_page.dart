@@ -95,7 +95,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: () {
-            var multiplayer = GameMechanics(true, 5);
+            var multiplayer = GameMechanics(true, 10);
             multiplayer.addPlayers(players);
             multiplayer.start(context);
             // Implement navigation to the next step, such as selecting a category
@@ -118,95 +118,112 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
 
   void _showAddPlayerDialog() {
     String playerName = "";
+    Color tempColor = _selectedColor; // Temporary color for the dialog
+
     DialogBackground(
       blur: 3,
-      dialog: AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        title: const Text(
-          "Add players:",
-          style: TextStyle(color: Colors.black),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Player name input field
-            TextField(
-              controller: _playerNameController,
-              decoration: const InputDecoration(
-                labelText: "Player Name",
-                labelStyle: TextStyle(color: Colors.black54),
-              ),
-              style: const TextStyle(color: Colors.black),
-              onChanged: (value) {
-                playerName = value;
-              },
+      dialog: StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
-            const SizedBox(height: 10),
-            // Color picker for player
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            title: const Text(
+              "Add players:",
+              style: TextStyle(color: Colors.black),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  "Player color:",
-                  style: TextStyle(color: Colors.black54),
-                ),
-                GestureDetector(
-                  onTap: _showColorPickerDialog,
-                  child: Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: _selectedColor,
-                      shape: BoxShape.circle,
-                    ),
+                // Player name input field
+                TextField(
+                  controller: _playerNameController,
+                  decoration: const InputDecoration(
+                    labelText: "Player Name",
+                    labelStyle: TextStyle(color: Colors.black54),
                   ),
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    playerName = value;
+                  },
+                ),
+                const SizedBox(height: 10),
+                // Color picker for player
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Player color:",
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        // Show the color picker and update tempColor when done
+                        Color? selectedColor = await _showColorPickerDialog();
+                        if (selectedColor != null) {
+                          setState(() {
+                            tempColor = selectedColor; // Update the temporary color
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: tempColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close dialog without saving
-            },
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (playerName.isNotEmpty) {
-                setState(() {
-                  players.add(Player(playerName, _selectedColor));
-                  _playerNameController.text = "";
-                  _selectedColor = Colors.blue;
-                });
-                Navigator.of(context).pop(); // Close dialog after saving
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog without saving
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-            ),
-            child: const Text(
-              "Done",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
+              ElevatedButton(
+                onPressed: () {
+                  if (playerName.isNotEmpty) {
+                    // Call setState on the parent widget to ensure the list updates
+                    this.setState(() {
+                      players.add(Player(playerName, tempColor)); // Use tempColor
+                      _playerNameController.text = "";
+                      _selectedColor = Colors.blue; // Reset the color
+                    });
+                    Navigator.of(context).pop(); // Close dialog after saving
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  "Done",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     ).show(context);
   }
 
-  void _showColorPickerDialog() {
-    showDialog(
+  Future<Color?> _showColorPickerDialog() async {
+    Color tempSelectedColor = _selectedColor; // Temporary variable to hold the selected color
+
+    return showDialog<Color>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -243,41 +260,28 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                 Colors.blueGrey,
                 Colors.black
               ],
-              itemBuilder: (color, isCurrentColor, changeColor) {
-                return GestureDetector(
-                  onTap: () => changeColor(),
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: color,
-                    ),
-                    width: 30,
-                    height: 30,
-                    child: isCurrentColor
-                        ? const Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          )
-                        : null,
-                  ),
-                );
-              },
               onColorChanged: (color) {
-                setState(() {
-                  _selectedColor = color;
-                });
+                tempSelectedColor = color; // Update the temp color when selected
               },
             ),
           ),
           actions: [
             TextButton(
               child: const Text(
+                "Cancel",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(null); // Return null if canceled
+              },
+            ),
+            TextButton(
+              child: const Text(
                 "Select",
                 style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(tempSelectedColor); // Return selected color
               },
             ),
           ],

@@ -45,12 +45,9 @@ class PlayerSelectionPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 var singleplayerGame = GameMechanics(false, 10);
-                singleplayerGame.selectCategory(context);
-                /*
                 if (context.mounted) {
                   singleplayerGame.start(context);
                 }
-                */
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
