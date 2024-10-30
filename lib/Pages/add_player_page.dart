@@ -12,8 +12,8 @@ class AddPlayerPage extends StatefulWidget {
 }
 
 class _AddPlayerPageState extends State<AddPlayerPage> {
-  List<Player> players = []; // To store added players' info
-  Color _selectedColor = Colors.blue; // Default color
+  List<Player> players = [];
+  Color _selectedColor = Colors.blue; 
   final TextEditingController _playerNameController = TextEditingController();
 
   @override
@@ -31,7 +31,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
             padding: const EdgeInsets.only(right: 20),
             child: IconButton(
               icon: const Icon(Icons.menu, color: Colors.black),
-              onPressed: () {}, // Placeholder for future menu functionality
+              onPressed: () {},
             ),
           ),
         ],
@@ -40,7 +40,6 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Page title
             const Text(
               "Add players:",
               style: TextStyle(
@@ -64,7 +63,6 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
               ),
             ),
             const SizedBox(height: 20),
-            // Display added players
             Expanded(
               child: ListView.builder(
                 itemCount: players.length,
@@ -90,7 +88,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
           ],
         ),
       ),
-      // Bottom button to move to the next step
+
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
@@ -98,7 +96,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
             var multiplayer = GameMechanics(true, 10);
             multiplayer.addPlayers(players);
             multiplayer.start(context);
-            // Implement navigation to the next step, such as selecting a category
+           
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
@@ -118,7 +116,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
 
   void _showAddPlayerDialog() {
     String playerName = "";
-    Color tempColor = _selectedColor; // Temporary color for the dialog
+    Color tempColor = _selectedColor; 
 
     DialogBackground(
       blur: 3,
@@ -136,7 +134,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Player name input field
+                
                 TextField(
                   controller: _playerNameController,
                   decoration: const InputDecoration(
@@ -159,11 +157,11 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        // Show the color picker and update tempColor when done
+                      
                         Color? selectedColor = await _showColorPickerDialog();
                         if (selectedColor != null) {
                           setState(() {
-                            tempColor = selectedColor; // Update the temporary color
+                            tempColor = selectedColor; 
                           });
                         }
                       },
@@ -183,7 +181,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close dialog without saving
+                  Navigator.of(context).pop(); 
                 },
                 child: const Text(
                   "Cancel",
@@ -193,13 +191,13 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
               ElevatedButton(
                 onPressed: () {
                   if (playerName.isNotEmpty) {
-                    // Call setState on the parent widget to ensure the list updates
+                    
                     this.setState(() {
-                      players.add(Player(playerName, tempColor)); // Use tempColor
+                      players.add(Player(playerName, tempColor)); 
                       _playerNameController.text = "";
-                      _selectedColor = Colors.blue; // Reset the color
+                      _selectedColor = Colors.blue;
                     });
-                    Navigator.of(context).pop(); // Close dialog after saving
+                    Navigator.of(context).pop(); 
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -221,7 +219,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
   }
 
   Future<Color?> _showColorPickerDialog() async {
-    Color tempSelectedColor = _selectedColor; // Temporary variable to hold the selected color
+    Color tempSelectedColor = _selectedColor; 
 
     return showDialog<Color>(
       context: context,
@@ -261,7 +259,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                 Colors.black
               ],
               onColorChanged: (color) {
-                tempSelectedColor = color; // Update the temp color when selected
+                tempSelectedColor = color;
               },
             ),
           ),
@@ -272,7 +270,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                 style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
-                Navigator.of(context).pop(null); // Return null if canceled
+                Navigator.of(context).pop(null);
               },
             ),
             TextButton(
@@ -281,7 +279,7 @@ class _AddPlayerPageState extends State<AddPlayerPage> {
                 style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
-                Navigator.of(context).pop(tempSelectedColor); // Return selected color
+                Navigator.of(context).pop(tempSelectedColor);
               },
             ),
           ],
