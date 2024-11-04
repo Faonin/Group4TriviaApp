@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:template/Pages/leaderboard.dart';
 import 'package:template/pages/player_select_page.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -22,7 +23,9 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.only(right: 20),
             child: IconButton(
               icon: const Icon(Icons.menu, color: Colors.black),
-              onPressed: () {}, // Placeholder for future menu functionality
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard()));
+              }, // Placeholder for future menu functionality
             ),
           ),
         ],
@@ -52,14 +55,12 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const PlayerSelectionPage()),
+                  MaterialPageRoute(builder: (context) => const PlayerSelectionPage()),
                 );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:template/Pages/change_user_screen.dart';
 import 'package:template/Pages/loading_page.dart';
 import 'package:template/Pages/score_page.dart';
 import 'package:template/Pages/select_category.dart';
+import 'package:template/mechanics/leaderboard_provider.dart';
 import 'package:template/pages/question_page.dart';
 import 'package:template/mechanics/question_class.dart';
 import 'player.dart';
@@ -53,6 +55,11 @@ class GameMechanics {
         }
       }
     }
+    for (var i = 0; i < players.length; i++) {
+      // ignore: use_build_context_synchronously
+      context.read<LeaderboardProvider>().addToLeaderboard(players[i]);
+    }
+
     if (context.mounted) Navigator.push(context, MaterialPageRoute(builder: (context) => ScorePage(players)));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:template/mechanics/mechanic.dart';
 import 'package:template/pages/add_player_page.dart';
+import 'package:template/pages/leaderboard.dart';
 
 class PlayerSelectionPage extends StatelessWidget {
   const PlayerSelectionPage({super.key});
@@ -23,7 +24,9 @@ class PlayerSelectionPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 20),
             child: IconButton(
               icon: const Icon(Icons.menu, color: Colors.black),
-              onPressed: () {}, // Placeholder for future menu functionality
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard()));
+              }, // Placeholder for future menu functionality
             ),
           ),
         ],

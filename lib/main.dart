@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:template/mechanics/leaderboard_provider.dart';
 import 'package:template/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  LeaderboardProvider state = LeaderboardProvider();
+  state.updateLeaderboard();
+  runApp(ChangeNotifierProvider(create: (context) => state, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
