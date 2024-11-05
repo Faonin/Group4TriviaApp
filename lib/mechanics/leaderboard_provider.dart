@@ -21,22 +21,30 @@ class LeaderboardProvider extends ChangeNotifier {
 
   addToLeaderboard(Player newMember) async {
     var prefs = await SharedPreferences.getInstance();
-    String member = "${newMember.score}${newMember.name}${colorToHex(newMember.color)}";
-    _leaderboardList.add(member);
-    if (_leaderboardList.length > 10) {
-      _leaderboardList.sort();
-      _leaderboardList.removeLast();
+    List<Player> playerList = convertToPlayerList(prefs.getStringList("leaderboardList")!);
+    int compareToNumber = playerList.isEmpty ? -1 : playerList[playerList.length - 1].score;
+
+    if (newMember.score > compareToNumber) {
+      playerList.add(newMember);
+      if (playerList.length > 10) {
+        playerList.sort((b, a) => a.score.compareTo(b.score));
+        _leaderboardList.removeLast();
+      }
+      List<String> newLeaderBoardList = [];
+      for (var i = 0; i < playerList.length; i++) {
+        newLeaderBoardList.add("${playerList[i].score}\n${playerList[i].name}\n${colorToHex(playerList[i].color)}");
+      }
+      await prefs.setStringList("leaderboardList", newLeaderBoardList);
+      notifyListeners();
     }
-    await prefs.setStringList("leaderboardList", _leaderboardList);
-    notifyListeners();
   }
 
   List<Player> convertToPlayerList(List<String> listToConvert) {
     List<Player> newList = [];
     for (var i = 0; i < listToConvert.length; i++) {
-      Player convertedName = Player(listToConvert[i].substring(1, listToConvert[i].length - 8),
-          colorFromHex(listToConvert[i].substring(listToConvert[i].length - 8, listToConvert[i].length)) ?? Colors.black);
-      convertedName.setScore(int.parse(listToConvert[i].substring(0, 1)));
+      var splitPlayer = listToConvert[i].split("\n");
+      Player convertedName = Player(splitPlayer[1], colorFromHex(listToConvert[i].split("\n")[2]) ?? Colors.black);
+      convertedName.setScore(int.parse(splitPlayer[0]));
       newList.add(convertedName);
     }
 
