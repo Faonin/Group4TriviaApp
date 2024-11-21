@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:template/mechanics/player.dart';
 import 'package:template/pages/home_page.dart';
 import 'package:template/pages/player_select_page.dart';
+import 'package:template/Pages/leaderboard.dart';
 
 class ScorePage extends StatelessWidget {
   final List<Player> players;
@@ -26,7 +27,9 @@ class ScorePage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 20),
             child: IconButton(
               icon: const Icon(Icons.menu, color: Colors.black),
-              onPressed: () {}, // Placeholder for future menu functionality
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Leaderboard()));
+              },
             ),
           ),
         ],

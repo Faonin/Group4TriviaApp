@@ -13,4 +13,8 @@ class Player {
   int currentScore() {
     return score;
   }
+
+  setScore(int newScore) {
+    score = newScore;
+  }
 }
